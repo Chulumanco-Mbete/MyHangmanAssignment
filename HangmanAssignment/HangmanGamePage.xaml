@@ -3,11 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HangmanAssignment.HangmanGamePage"
              Title="MAUI Hangman Assignment">
-    <VerticalStackLayout>
+    <!--<VerticalStackLayout>
         <Label Text="Welcome to Hangman" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="40"/>
         <Image Margin="40" Source="hang1.png" HorizontalOptions="Center"/>
-        <Label FontAttributes="Bold" FontSize="30" HorizontalOptions="Center" Margin="40" Text="C_RR_EN__G_UE_S"/>
+        <Label FontAttributes="Bold" FontSize="30" HorizontalOptions="Center" Margin="40" Text="C_RR_EN__G_E_S"/>
         <Entry FontSize="30" HorizontalOptions="Center" Margin="40" Placeholder="Enter your next guess"/>
         <Button Text="Guess"/>
-    </VerticalStackLayout>
+    </VerticalStackLayout>-->
+
+    <Grid RowDefinitions=".6*,.4*">
+        <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
+            <Label Text="{Binding GameStatus}" 
+               FontSize="Title"
+               FontAttributes="Bold"
+               x:Name="lbl_erorr"
+               HorizontalTextAlignment="Center"/>
+
+            <!--<Image Margin="40" Source="hang1.png" HorizontalOptions="Center"/>-->
+
+            <Image Source="{Binding CrtImageName}"
+               HeightRequest="200"
+               SemanticProperties.Description="Start_game_img"
+               x:Name="png_hangman"/>
+
+            <Label Text="{Binding Spotlight}"
+               FontSize="25"
+               FontAttributes="Bold"
+               x:Name="lbl_answer"
+               HorizontalTextAlignment="Center"/>
+
+            <Label Text="{Binding Message}" 
+               FontSize="Medium" 
+               x:Name="lbl_status" 
+               HorizontalTextAlignment="Center"/>
+
+            <Button Text="Reset"
+                HeightRequest="50"
+                WidthRequest="100"
+                x:Name="Reset"
+                Clicked="Reset_Clicked"
+                BackgroundColor="{StaticResource PrimaryButtonColor}"/>
+
+        </VerticalStackLayout>
+        <FlexLayout Grid.Row="1" 
+                Wrap="Wrap"
+                JustifyContent="SpaceEvenly" 
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Margin="10"
+                x:Name="letterContainer"
+                BindableLayout.ItemsSource="{Binding Letters}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Button Text="{Binding .}"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Clicked="Button_Clicked"
+                        />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+    </Grid>
 </ContentPage>
