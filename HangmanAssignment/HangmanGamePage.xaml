@@ -3,13 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HangmanAssignment.HangmanGamePage"
              Title="MAUI Hangman Assignment">
-    <!--<VerticalStackLayout>
-        <Label Text="Welcome to Hangman" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontAttributes="Bold" FontSize="40"/>
-        <Image Margin="40" Source="hang1.png" HorizontalOptions="Center"/>
-        <Label FontAttributes="Bold" FontSize="30" HorizontalOptions="Center" Margin="40" Text="C_RR_EN__G_E_S"/>
-        <Entry FontSize="30" HorizontalOptions="Center" Margin="40" Placeholder="Enter your next guess"/>
-        <Button Text="Guess"/>
-    </VerticalStackLayout>-->
 
     <Grid RowDefinitions=".6*,.4*">
         <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
@@ -19,30 +12,29 @@
                x:Name="lbl_erorr"
                HorizontalTextAlignment="Center"/>
 
-            <!--<Image Margin="40" Source="hang1.png" HorizontalOptions="Center"/>-->
-
             <Image Source="{Binding CrtImageName}"
                HeightRequest="200"
-               SemanticProperties.Description="Start_game_img"
+               SemanticProperties.Description="Start_game_png"
                x:Name="png_hangman"/>
 
-            <Label Text="{Binding Spotlight}"
+            <Label Text="{Binding Spotlgt}"
                FontSize="25"
                FontAttributes="Bold"
                x:Name="lbl_answer"
                HorizontalTextAlignment="Center"/>
 
-            <Label Text="{Binding Message}" 
+            <Label Text="{Binding StatusMessage}" 
                FontSize="Medium" 
                x:Name="lbl_status" 
-               HorizontalTextAlignment="Center"/>
+               HorizontalTextAlignment="Center"
+               TextColor="Red"/>
 
-            <Button Text="Reset"
+            <Button Text="Try Again"
                 HeightRequest="50"
                 WidthRequest="100"
-                x:Name="Reset"
-                Clicked="Reset_Clicked"
-                BackgroundColor="{StaticResource PrimaryButtonColor}"/>
+                x:Name="TryAgain"
+                Clicked="TryAgain_Clicked"
+                BackgroundColor="#50C878"/>
 
         </VerticalStackLayout>
         <FlexLayout Grid.Row="1" 
@@ -52,14 +44,14 @@
                 VerticalOptions="Center"
                 Margin="10"
                 x:Name="letterContainer"
-                BindableLayout.ItemsSource="{Binding Letters}">
+                BindableLayout.ItemsSource="{Binding AlphabetLetters}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                     <Button Text="{Binding .}"
                         HeightRequest="40"
                         WidthRequest="40"
                         Clicked="Button_Clicked"
-                        />
+                        BackgroundColor="RoyalBlue"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </FlexLayout>

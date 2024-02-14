@@ -1,3 +1,5 @@
+using Java.Util.Concurrent;
+using Microsoft.Maui.Controls;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -5,44 +7,81 @@ namespace HangmanAssignment;
 
 public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
 {
+    //Variables
+    List<char> guessed = new();
+    string answer = string.Empty;
+    private string _spotlgt;
+    private int error = 0;
+    private List<char> _Alphabetletters = new();
+    private string _Statmessage;
+    private string _gameStatus = "Errors : 0 of 8";
+    private string _currentImage = "hang1.png";
+
     #region fields
-    public string Spotlight
+    public string Spotlgt
     {
-        get => _spotlight;
+        get => _spotlgt;
         set
         {
-            _spotlight = value;
+            _spotlgt = value;
             OnPropertyChanged();
         }
     }
 
+    //The list of words that will generate at random
     List<string> words = new List<string>()
      {
-        "python",
-        "javascript",
-        "maui",
-        "csharp",
-        "mongodb",
-        "sql",
-        "xaml",
-        "word",
-        "excel",
-        "powerpoint",
-        "code",
-        "hotreload",
-        "snippets"
+        "arrangement",
+        "attempt",
+        "border",
+        "brick",
+        "customs",
+        "discussion",
+        "essential",
+        "exchange",
+        "explanation",
+        "fireplace",
+        "floating",
+        "garage",
+        "grabbed",
+        "grandmother",
+        "heading",
+        "independent",
+        "instant",
+        "manufacturing",
+        "mathematics",
+        "memory",
+        "mysterious",
+        "neighborhood",
+        "occasionally",
+        "official",
+        "policeman",
+        "positive",
+        "possibly",
+        "practical",
+        "promised",
+        "remarkable",
+        "require",
+        "satisfied",
+        "scared",
+        "selection",
+        "shaking",
+        "shallow",
+        "simplest",
+        "slight",
+        "slope",
+        "species",
+        "thumb",
+        "tobacco",
+        "treated",
+        "vessels"
      };
 
-    List<char> guessed = new();
-    string answer = string.Empty;
-    private string _spotlight;
-    private int error = 0;
-
-    public string CurrentImageName
+    public string CrtImageName
     {
-        get => _currentImageName; set
+        get => _currentImage; set
         {
-            _currentImageName = value;
+            _currentImage = value;
             OnPropertyChanged();
         }
     }
@@ -56,35 +95,30 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public string Message
+    public string StatusMessage
     {
-        get => _message; set
+        get => _Statmessage; set
         {
-            _message = value;
+            _Statmessage = value;
             OnPropertyChanged();
         }
     }
 
-    public List<char> Letters
+    public List<char> AlphabetLetters
     {
-        get => _letters;
+        get => _Alphabetletters;
         set
         {
-            _letters = value;
+            _Alphabetletters = value;
             OnPropertyChanged();
         }
     }
-
-    private List<char> _letters = new();
-    private string _message;
-    private string _gameStatus = "Errors : 0 of 7";
-    private string _currentImageName = "hang1.png";
     #endregion
 
     public HangmanGamePage()
 	{
 		InitializeComponent();
-        _letters.AddRange("abcdefghijklmnopqrstuvwxyz");
+        _Alphabetletters.AddRange("abcdefghijklmnopqrstuvwxyz");
         BindingContext = this;
         PickWord();
         CalculateWord(answer, guessed);
@@ -102,7 +136,7 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
     private void CalculateWord(string answer, List<char> guessed)
     {
         var temp = answer.Select(x => guessed.IndexOf(x) >= 0 ? x : '_').ToArray();
-        Spotlight = string.Join(' ', temp);
+        Spotlgt = string.Join(' ', temp);
     }
 
     #endregion
@@ -140,21 +174,21 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
 
     private void SetGameStatus()
     {
-        GameStatus = $"Errors: {error} of {7}";
+        GameStatus = $"Errors: {error} of {8}";
         SetCurrentImage();
 
     }
 
     private void SetCurrentImage()
     {
-        CurrentImageName = $"hang{error}.png";
+        CrtImageName = $"hang{error}.png";
     }
 
     private void CheckIfGameLost()
     {
-        if (error == 7)
+        if (error == 8)
         {
-            Message = "Game Over...";
+            StatusMessage = "Game Over...";
 
             DisableLetters();
         }
@@ -184,17 +218,17 @@ public partial class HangmanGamePage : ContentPage, INotifyPropertyChanged
 
     private void CheckGameWon()
     {
-        if (answer == Spotlight.Replace(" ", ""))
+        if (answer == Spotlgt.Replace(" ", ""))
         {
-            Message = "You Won!";
+            StatusMessage = "You Won!";
             DisableLetters();
         }
     }
 
-    private void Reset_Clicked(object sender, EventArgs e)
+    private void TryAgain_Clicked(object sender, EventArgs e)
     {
         error = 0;
-        Message = string.Empty;
+        StatusMessage = string.Empty;
         guessed = new();
         PickWord();
         CalculateWord(answer, guessed);
